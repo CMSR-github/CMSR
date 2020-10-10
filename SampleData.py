@@ -11,15 +11,36 @@ import random
 # Generating Random numbers
 # How are we going to make that somewhat continuous?
 
-#We could try to make a very long loop with just random or we could try out numpy
-test = [random.Random() for i in range(0,10)]
+def Direction(cont):
+    direction = random.randint(0,10)
+    cont += 5
+    if direction > 5:
+        return True
+    else:
+        return False
+    
+
+def GenerateData(datalist,start,amount,maxstepsize):
+    cont = 0
+    positive = True
+    for i in range(amount):
+        if cont > 0:
+            delta = random.randint(0,100)/100 * maxstepsize
+            if positive: 
+                start += delta
+            else:
+                start -= delta 
+            datalist.append(start)
+            cont -= 1
+        else:
+            positive = Direction(cont)
+#haven't really worked it out fully but this is what I was thinking 
 
 #from searching online
 #from numpy import random
 #creates a 2D array from 0 to 100 with 3 rows and 5 random ints in each
 #x = random.randint(100, size=(3, 5))
-#how do you think we should 
-#https://www.w3schools.com/python/numpy_random.aspkeep it cont inuous?
+#https://www.w3schools.com/python/numpy_random.aspkeep 
 
 
 # save that array of 'data' to a file
