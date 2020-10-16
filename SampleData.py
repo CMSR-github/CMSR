@@ -4,16 +4,16 @@
 
 # Import libraries
 import json
-import random
+import random, math
 
 # Randomize a long array of 'data' between 0 and 1023
 # Somewhat 'continuous'
 # Generating Random numbers
 # How are we going to make that somewhat continuous?
 
-def Direction(cont):
+#chooses random direction
+def Direction():
     direction = random.randint(0,10)
-    cont += 5
     if direction > 5:
         return True
     else:
@@ -21,8 +21,10 @@ def Direction(cont):
     
 
 def GenerateData(datalist,start,amount,maxstepsize):
-    cont = 0
+    cont = 5
+    #cont maintains a direction for 5 data points
     positive = True
+    #we start in the positive direction
     for i in range(amount):
         if cont > 0:
             delta = random.randint(0,100)/100 * maxstepsize
@@ -30,11 +32,15 @@ def GenerateData(datalist,start,amount,maxstepsize):
                 start += delta
             else:
                 start -= delta 
-            datalist.append(start)
+            datalist.append(math.trunc(start))
             cont -= 1
         else:
-            positive = Direction(cont)
-#haven't really worked it out fully but this is what I was thinking 
+            positive = Direction()
+            cont += 5
+  
+datalist = []
+GenerateData(datalist,300,100,20)
+print(datalist)
 
 #from searching online
 #from numpy import random
@@ -47,8 +53,8 @@ def GenerateData(datalist,start,amount,maxstepsize):
 # how to save an array of 'data' to a file that is easily accessible
 
 # Writes data from "data" list to json file named RandomData.txt
-with open('RandomData.txt', 'w') as outfile:
-    json.dump(data, outfile)
+#with open('RandomData.txt', 'w') as outfile:
+    #json.dump(data, outfile)
     
 '''
 # for accessing data from json file
