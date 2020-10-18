@@ -36,10 +36,10 @@ def GenerateData(datalist,start,amount,maxstepsize):
             positive = Direction()
             cont += 5
   
-datalist = []
-GenerateData(datalist,300,100,20)
-plt.plot(datalist)
-plt.show()
+# datalist = []
+# GenerateData(datalist,300,100,20)
+# plt.plot(datalist)
+# plt.show()
 
 
 #from searching online
