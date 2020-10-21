@@ -42,12 +42,17 @@ def GenerateData(datalist,start,amount,maxstepsize):
 # plt.show()
 
 
-#from searching online
-#from numpy import random
-#creates a 2D array from 0 to 100 with 3 rows and 5 random ints in each
-#x = random.randint(100, size=(3, 5))
-#how do you think we should 
-#https://www.w3schools.com/python/numpy_random.aspkeep it cont inuous?
+#area of a trapezoid
+def integral(firstPoint, secondPoint, stepSize):
+    area = ((firstPoint + secondPoint)  * stepSize) / 2
+    return area
+
+#coulomb counting using sample data
+def coulombCounting(datalist):
+    coulombs = 0
+    for i in range(len(datalist) - 1):
+        coulombs += integral(datalist[i], datalist[i + 1], 1)
+    return coulombs
 
 
 # save that array of 'data' to a file
