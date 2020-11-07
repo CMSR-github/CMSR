@@ -5,7 +5,7 @@
 # Import libraries
 import json
 import random
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import math
 
 # Randomize a long array of 'data' between 0 and 1023
@@ -36,11 +36,16 @@ def GenerateData(datalist,start,amount,maxstepsize):
             positive = Direction()
             cont += 5
   
-# datalist = []
-# GenerateData(datalist,300,100,20)
+datalist = []
+GenerateData(datalist,300,100,20)
 # plt.plot(datalist)
 # plt.show()
 
+
+def writeDataToFile(data):
+  with open('RandomData.txt', 'w') as outfile:
+      json.dump(data, outfile)
+writeDataToFile(datalist)
 
 #area of a trapezoid
 def integral(firstPoint, secondPoint, stepSize):
