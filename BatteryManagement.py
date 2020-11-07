@@ -7,8 +7,8 @@ import random
 class BatteryManagement:
 
     def __init__(self):
-        self.prev_time = 0
-        self.cur_time = 0
+        self.prev_time = time.time()
+        self.cur_time = time.time()
         self.BSoC = 100
         self.prev_val = 0
         self.cur_val = 0
@@ -21,7 +21,7 @@ class BatteryManagement:
     def get_BSoC(self):
         if self.done:
             return None
-        
+        print(f'self current val: {self.cur_val}')
         # Update Time stamps
         self.prev_time = self.cur_time
         self.cur_time = time.time()
@@ -31,6 +31,9 @@ class BatteryManagement:
         self.cur_val = self.get_measurement()
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
+
+        
+        print(f'dt value:{dt}')
         
         
         return self.BSoC
@@ -51,7 +54,7 @@ if __name__ == '__main__':
     BMS = BatteryManagement()
     while BSoC != None:
         BSoC = BMS.get_BSoC()
-        time.sleep(1)
+        time.sleep(0.02)
         print(BSoC)
     
     
