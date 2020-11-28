@@ -1,7 +1,7 @@
 import dash
 import dash_core_components as dcc
 from dash.dependencies import Output
-from dash.dependencies import Event
+from dash.dependencies import Input
 import dash_html_components as html
 import plotly
 import random
@@ -16,18 +16,18 @@ Y.append(1)
 app = dash.Dash(__name__)
 app.layout = html.Div(
     [
-        dcc.Graph(id='live graph', animate = True),
+        dcc.Graph(id='live-graph', animate = True),
         dcc.Interval(
             id = 'graph-update',
-            interval = 1*1000
+            interval = 600
         )              
     ]
 )
 
 @app.callback (Output('live-graph','figure'), 
-                    events = [Event('graph-update','interval')]) 
+                [Input('graph-update','n_intervals')]) 
 
-def update_graph():
+def update_graph(n):
     global X
     global Y
     X.append(X[-1]+1)
@@ -37,11 +37,11 @@ def update_graph():
         x = list(X),
         y = list(Y),
         name = 'Scatter',
-        mode = 'line+markers'
+        mode = 'lines+markers'
     )
 
     return {'data':[data],'layout': go.Layout(xaxis = dict(range=[min(X),max(X)]),
-                                            yaxis = dict(range=[min(Y),max(Y)]))}
+                                            yaxis = dict(range=[0,100]))}
 
 if __name__ == '__main__':
     app.run_server(debug = True)
