@@ -7,11 +7,14 @@ import plotly
 import random
 import plotly.graph_objs as go
 from collections import deque
+from BatteryManagement import BatteryManagement
+
 
 X = deque(maxlen = 20)
-X.append(1)
+X.append(0)
 Y = deque(maxlen = 20)
-Y.append(1)
+
+BMS = BatteryManagement()
 
 app = dash.Dash(__name__)
 app.layout = html.Div(
@@ -19,7 +22,7 @@ app.layout = html.Div(
         dcc.Graph(id='live-graph', animate = True),
         dcc.Interval(
             id = 'graph-update',
-            interval = 100
+            interval = 1000
         )              
     ]
 )
@@ -30,8 +33,11 @@ app.layout = html.Div(
 def update_graph(n):
     global X
     global Y
+    BSoC = BMS.get_BSoC()
+
     X.append(X[-1]+1)
-    Y.append(X[-1]+Y[-1]*random.uniform(-0.1,0.1))
+    #X[-1]+Y[-1]*random.uniform(-0.1,0.1)
+    Y.append(BSoC)
 
     data = go.Scatter(
         x = list(X),
