@@ -11,7 +11,7 @@ root = Tk()
 
 # make new figure with size and dpi
 figure = Figure(figsize=(5, 4), dpi=100)
-# change to add more figures
+# change to add more figures 
 plot = figure.add_subplot(1, 1, 1)
 
 # plot red point

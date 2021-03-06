@@ -9,7 +9,7 @@ class BatteryManagement:
     def __init__(self):
         self.prev_time = time.time()
         self.cur_time = time.time()
-        self.BSoC = 100
+        self.BSoC = 5*3600
         self.prev_val = 0
         self.cur_val = 0
         
@@ -21,7 +21,7 @@ class BatteryManagement:
     def get_BSoC(self):
         if self.done:
             return None
-        print(f'self current val: {self.cur_val}')
+       
         # Update Time stamps
         self.prev_time = self.cur_time
         self.cur_time = time.time()
@@ -32,11 +32,7 @@ class BatteryManagement:
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
 
-        
-        print(f'dt value:{dt}')
-        
-        
-        return self.BSoC
+        return (self.BSoC/(5*3600))*100
     
     def accessData(self):
         with open('RandomData.txt') as json_file:
@@ -46,7 +42,10 @@ class BatteryManagement:
         data = self.data
         val = data[self.idx]
         self.idx += 1
+        if self.idx == self.data_len:
+            self.done = True
         return val
+        
 
 
 if __name__ == '__main__':
@@ -54,7 +53,8 @@ if __name__ == '__main__':
     BMS = BatteryManagement()
     while BSoC != None:
         BSoC = BMS.get_BSoC()
-        time.sleep(0.02)
-        print(BSoC)
+        time.sleep(0.1)
+        
+        print(f'Current Percent:{BSoC}')
     
     
