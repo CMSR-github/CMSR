@@ -8,6 +8,7 @@ import random
 import plotly.graph_objs as go
 from collections import deque
 from BatteryManagement import BatteryManagement
+import os
 
 
 X = deque(maxlen = 20)
@@ -19,11 +20,14 @@ BMS = BatteryManagement()
 app = dash.Dash(__name__)
 app.layout = html.Div(
     [
+        html.Img(src=app.get_asset_url("Scotty Boat Transparent.png"),
+                 alt="failure",
+                 height=100),
         dcc.Graph(id='live-graph', animate = True),
         dcc.Interval(
             id = 'graph-update',
             interval = 1000
-        )              
+        )
     ]
 )
 
