@@ -46,11 +46,10 @@ def update_graph():
     name = 'Scatter',
     mode = 'lines+markers' 
     ) 
-
     #makes it so that the axis updates and increases as values are added
     return {'data':[data], 'layout': go.Layout(xaxis = dict(xaxis = dict(range = [min(X), max(X)]),
                                                 yaxis = dict(range = [min(Y), max(Y)])))} 
-    
+
 if __name__ == '__main__':
     app.run_server(debug = True)
 

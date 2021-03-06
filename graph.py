@@ -22,6 +22,14 @@ data = []
 GenerateData(data,300,100,20)
 data = np.array(data)
 
+# for accessing data from json file
+def accessData():
+    with open('RandomData.txt') as json_file:
+        return json.load(json_file)
+
+# test json load
+dataTest = accessData()
+print(type(dataTest))
 
 plot.plot(data, color="blue", marker="x", linestyle="")
 
