@@ -10,8 +10,7 @@ from collections import deque
 from BatteryManagement import BatteryManagement
 import os
 
-
-X = deque(maxlen = 20)
+X = deque(maxlen = 50)
 X.append(0)
 Y = deque(maxlen = 20)
 
@@ -41,6 +40,7 @@ def update_graph(n):
     global X
     global Y
     BSoC = BMS.get_BSoC()
+    print(BSoC)
 
     X.append(X[-1]+1)
     #X[-1]+Y[-1]*random.uniform(-0.1,0.1)
