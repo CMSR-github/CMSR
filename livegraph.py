@@ -33,7 +33,7 @@ app.layout = html.Div(
     ]
 )
 
-@app.callback (Output('live-graph','figure'), 
+@app.callback ([Output('live-graph','figure'), Output('live-value','children')], 
                 [Input('graph-update','n_intervals')]) 
 
 def update_graph(n):
@@ -54,14 +54,14 @@ def update_graph(n):
     )
 
     return {'data':[data],'layout': go.Layout(xaxis = dict(range=[min(X),max(X)]),
-                                            yaxis = dict(range=[0,100]))}
+                                            yaxis = dict(range=[0,100]))}, [html.H1(children = BSoC)]
 
-@app.callback (Output('live-value','children'), 
-                [Input('graph-update','n_intervals')]) 
+# @app.callback (Output('live-value','children'), 
+#                 [Input('graph-update','n_intervals')]) 
 
-def update_value(n):
-    BSoC = BMS.get_BSoC()
-    return [html.H1(children = BSoC)]
+# def update_value(n):
+#     BSoC = BMS.get_BSoC()
+#     return [html.H1(children = BSoC)]
 
 if __name__ == '__main__':
     app.run_server(debug = True)
