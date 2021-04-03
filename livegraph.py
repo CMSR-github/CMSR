@@ -42,9 +42,10 @@ def update_graph(n):
     BSoC = BMS.get_BSoC()
     print(BSoC)
 
-    X.append(X[-1]+1)
-    #X[-1]+Y[-1]*random.uniform(-0.1,0.1)
-    Y.append(BSoC)
+    if(BSoC > 0):
+        X.append(X[-1]+1)
+        #X[-1]+Y[-1]*random.uniform(-0.1,0.1)
+        Y.append(BSoC)
 
     data = go.Scatter(
         x = list(X),

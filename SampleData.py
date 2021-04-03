@@ -25,7 +25,8 @@ def GenerateData(datalist,start,amount,maxstepsize):
     #we start in the positive direction
     for i in range(amount):
         if cont > 0:
-            delta = random.randint(0,100)/100 * maxstepsize
+            randomNumber = random.randint(0,100)/100
+            delta = randomNumber * maxstepsize
             if positive: 
                 start += delta
             else:
