@@ -19,11 +19,12 @@ BMS = BatteryManagement()
 app = dash.Dash(__name__)
 app.layout = html.Div(
     [
-        html.H1(children = 'Live Graph'),
-        html.Div(id = 'live-value'),
+        html.H1(children = 'CMSR Driver Dashboard'),
         html.Img(src=app.get_asset_url("Scotty Boat Transparent.png"),
                  alt="failure",
                  height=100),
+        html.Div(id = 'live-value'),
+        html.H1(children = 'BSoC Live Graph (%)'),
         dcc.Graph(id='live-graph', animate = True),
         dcc.Interval(
             id = 'graph-update',
@@ -55,7 +56,7 @@ def update_graph(n):
     )
 
     return {'data':[data],'layout': go.Layout(xaxis = dict(range=[min(X),max(X)]),
-                                            yaxis = dict(range=[0,100]))}, [html.H1(children = BSoC)]
+                                            yaxis = dict(range=[0,100]))}, [html.H1(children = f'BSoC reading: {round(BSoC,2)} %')]
 
 # @app.callback (Output('live-value','children'), 
 #                 [Input('graph-update','n_intervals')]) 
