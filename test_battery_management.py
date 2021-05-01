@@ -41,6 +41,7 @@ class BatteryManagement:
         
         # Update Current Measurements
         self.cur_val = self.get_measurement() * 40
+        print(f'measurement * 40 = {self.cur_val}')
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
         self.prev_val = self.cur_val
