@@ -10,7 +10,7 @@ from adafruit_ads1x15.analog_in import AnalogIn
 
 i2c = busio.I2C(board.SCL,board.SDA)
 ads = ADS.ADS1115(i2c)
-ads.mode = Mode.CONTINUOUS
+#ads.mode = Mode.CONTINUOUS
 # this is directly affecting the reading values, replacing the opamp
 ads.gain = 50
 chan = AnalogIn(ads,ADS.P0)
