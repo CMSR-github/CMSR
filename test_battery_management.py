@@ -20,7 +20,7 @@ class BatteryManagement:
     def __init__(self):
         self.prev_time = time.time()
         self.cur_time = time.time()
-        self.BSoC = 5*3600
+        self.BSoC = 210*3600
         self.prev_val = 0
         self.cur_val = 0
         
