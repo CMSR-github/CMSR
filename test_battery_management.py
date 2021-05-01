@@ -61,8 +61,8 @@ class BatteryManagement:
         return val
 
     def get_measurement(self):
-        val = chan.value
-        return val
+        val = chan.voltage
+        return val * 16
         
 
 
