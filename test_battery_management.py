@@ -59,6 +59,7 @@ class BatteryManagement:
 
     def get_measurement(self):
         val = chan.value
+        return val
         
 
 
