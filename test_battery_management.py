@@ -40,9 +40,10 @@ class BatteryManagement:
         dt = self.cur_time - self.prev_time
         
         # Update Current Measurements
-        self.cur_val = self.get_measurement()
+        self.cur_val = self.get_measurement() * 40
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
+        self.prev_val = self.cur_val
 
         return (self.BSoC/self.amp_hour)*100
     
