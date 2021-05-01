@@ -28,6 +28,7 @@ class BatteryManagement:
         self.idx = 0
         self.data_len = len(self.data)
         self.done = False
+        self.amp_hour = 210 * 3600
     
     def get_BSoC(self):
         if self.done:
@@ -43,7 +44,7 @@ class BatteryManagement:
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
 
-        return (self.BSoC/(5*3600))*100
+        return (self.BSoC/self.amp_hour)*100
     
     def accessData(self):
         with open('RandomData.txt') as json_file:
