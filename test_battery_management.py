@@ -12,7 +12,7 @@ i2c = busio.I2C(board.SCL,board.SDA)
 ads = ADS.ADS1115(i2c)
 #ads.mode = Mode.CONTINUOUS
 # this is directly affecting the reading values, replacing the opamp
-ads.gain = 16
+ads.gain = 4
 chan = AnalogIn(ads,ADS.P0)
 
 class BatteryManagement:
