@@ -69,10 +69,14 @@ class BatteryManagement:
 if __name__ == '__main__':
     BSoC = 0
     BMS = BatteryManagement()
+
+    prevBSoC = 0
+    
     while BSoC != None:
         BSoC = BMS.get_BSoC()
         time.sleep(0.1)
         
-        print(f'Current Percent:{BSoC}')
+        print(f'Current Percent:{BSoC}, change = {prevBSoC - BSoC}')
+        prevBSoC = BSoC
     
     
