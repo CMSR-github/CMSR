@@ -12,7 +12,7 @@ i2c = busio.I2C(board.SCL,board.SDA)
 ads = ADS.ADS1115(i2c)
 #ads.mode = Mode.CONTINUOUS
 # this is directly affecting the reading values, replacing the opamp
-ads.gain = 4
+ads.gain = ADS.GAIN_TWOTHIRDS
 chan = AnalogIn(ads,ADS.P0)
 
 class BatteryManagement:
@@ -40,7 +40,7 @@ class BatteryManagement:
         dt = self.cur_time - self.prev_time
         
         # Update Current Measurements
-        self.cur_val = self.get_measurement() * 40
+        self.cur_val = self.get_measurement()
         print(f'measurement * 40 = {self.cur_val}')
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
@@ -62,7 +62,7 @@ class BatteryManagement:
 
     def get_measurement(self):
         val = chan.voltage
-        return val * 16
+        return val 
         
 
 
