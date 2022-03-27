@@ -1,26 +1,32 @@
 import time
-import board
 import busio
+import digitalio
+import board
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xx.analog_in import AnalogIn
 #import numpy as np
 import json
 import random
-import adafruit_ads1x15.ads1115 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn
 #import matplotlib.pyplot as plt
 
-i2c = busio.I2C(board.SCL,board.SDA)
-ads = ADS.ADS1115(i2c)
-#ads.mode = Mode.CONTINUOUS
-# this is directly affecting the reading values, replacing the opamp
-ads.gain = ADS.GAIN_TWOTHIRDS
-chan = AnalogIn(ads,ADS.P0)
+#create the SPI Bus
+spi = busio.SPI(clock = board.SCK, MISO = board.MISO, MOSI = board.MOSI)
+
+#create the chip select
+cs = digitalio.DigitalInOut(board.D22)
+
+#create mcp object
+mcp = MCP.MCP3008(spi,cs)
+#create analog input on pin 0
+chan0 = AnalogIn(mcp,MCP.P0)
+
 
 class BatteryManagement:
 
     def __init__(self):
         self.prev_time = time.time()
         self.cur_time = time.time()
-        self.BSoC = 210*3600
+        self.BSoC = 5*3600
         self.prev_val = 0
         self.cur_val = 0
         
@@ -28,7 +34,6 @@ class BatteryManagement:
         self.idx = 0
         self.data_len = len(self.data)
         self.done = False
-        self.amp_hour = 210 * 3600
     
     def get_BSoC(self):
         if self.done:
@@ -41,42 +46,48 @@ class BatteryManagement:
         
         # Update Current Measurements
         self.cur_val = self.get_measurement()
-        print(f'measurement * 40 = {self.cur_val}')
         dCharge = (self.prev_val+self.cur_val)/2 * dt
         self.BSoC -= dCharge
-        self.prev_val = self.cur_val
 
-        return (self.BSoC/self.amp_hour)*100
+        return (self.BSoC/(5*3600))*100
     
     def accessData(self):
         with open('RandomData.txt') as json_file:
             self.data = json.load(json_file)
-    
-    def get_measurement_original(self):
-        data = self.data
-        val = data[self.idx]
-        self.idx += 1
-        if self.idx == self.data_len:
-            self.done = True
-        return val
 
+    #remap the value from the old range of values (raw values) to new range
+    def remap(self,value,orig_min,orig_max,new_min,new_max):
+        orig_range = orig_max - orig_min
+        new_range = new_max - new_min
+
+        #convert
+        valueScaled = int(value-orig_min) / int(orig_range)
+        new_val = int(new_min + (valueScaled*new_range))
+
+        return new_val
+
+    
     def get_measurement(self):
-        val = chan.voltage
-        return val 
+
+        raw_val = chan0.value
+        val = raw_val
+        print(f"raw val: {raw_val}")
+        # data = self.data
+        # val = data[self.idx]
+        # self.idx += 1
+        # if self.idx == self.data_len:
+        #     self.done = True
+        return val
         
 
 
 if __name__ == '__main__':
     BSoC = 0
     BMS = BatteryManagement()
-
-    prevBSoC = 0
-    
     while BSoC != None:
         BSoC = BMS.get_BSoC()
         time.sleep(0.1)
         
-        print(f'Current Percent:{BSoC}, change = {prevBSoC - BSoC}')
-        prevBSoC = BSoC
+        print(f'Current Percent:{BSoC}')
     
     
