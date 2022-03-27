@@ -35,7 +35,7 @@ class BatteryManagement:
         return (self.BSoC/(5*3600))*100
     
     def accessData(self):
-        with open('RandomData.txt') as json_file:
+        with open('/home/pi/CMSR/RandomData.txt') as json_file:
             self.data = json.load(json_file)
     
     def get_measurement(self):

@@ -9,6 +9,8 @@ import plotly.graph_objs as go
 from collections import deque
 from BatteryManagement import BatteryManagement
 import os
+import webbrowser
+from threading import Timer
 
 X = deque(maxlen = 50)
 X.append(0)
@@ -65,5 +67,11 @@ def update_graph(n):
 #     BSoC = BMS.get_BSoC()
 #     return [html.H1(children = BSoC)]
 
+port = 8050
+def open_browser():
+    webbrowser.open_new("http://localhost:{}".format(port))
+   # webbrowser.open_new("http://127.0.0.1:8050/")
+
 if __name__ == '__main__':
-    app.run_server(debug = True)
+    Timer(1, open_browser).start(); 
+    app.run_server(debug = True, port=port)
