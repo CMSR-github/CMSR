@@ -1,7 +1,7 @@
 import serial
 port = "/dev/serial0"
 def parseGPS(data):
-    print "raw:", data #prints raw data
+    #print "raw:", data #prints raw data
     if data[0:6] == "$GNRMC":
         sdata = data.split(",")
         if sdata[2] == 'V':
@@ -16,7 +16,8 @@ def parseGPS(data):
         speed = sdata[7]       #Speed in knots
         trCourse = sdata[8]    #True course
         date = sdata[9][0:2] + "/" + sdata[9][2:4] + "/" + sdata[9][4:6]#date
-        print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
+        print " latitude : %s(%s), longitude : %s(%s), speed : %s" %  (lat,dirLat,lon,dirLon,speed)
+       # print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)
 def decode(coord):
     #Converts DDDMM.MMMMM > DD deg MM.MMMMM min
     x = coord.split(".")

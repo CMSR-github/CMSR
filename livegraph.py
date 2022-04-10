@@ -8,6 +8,7 @@ import random
 import plotly.graph_objs as go
 from collections import deque
 from BatteryManagement import BatteryManagement
+from gps import GPS
 import os
 import webbrowser
 from threading import Timer
@@ -17,6 +18,7 @@ X.append(0)
 Y = deque(maxlen = 20)
 
 BMS = BatteryManagement()
+GPS = BerryGPS()
 
 app = dash.Dash(__name__)
 app.layout = html.Div(
@@ -44,11 +46,12 @@ def update_graph(n):
     global Y
     BSoC = BMS.get_BSoC()
     print(BSoC)
-
     if(BSoC > 0):
         X.append(X[-1]+1)
         #X[-1]+Y[-1]*random.uniform(-0.1,0.1)
         Y.append(BSoC)
+
+    GPS_read = GPS.getData()
 
     data = go.Scatter(
         x = list(X),
