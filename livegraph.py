@@ -8,7 +8,8 @@ import random
 import plotly.graph_objs as go
 from collections import deque
 from BatteryManagement import BatteryManagement
-from gps import GPS
+from gps import BerryGPS
+#from Accelerometer import Accelerometer
 import os
 import webbrowser
 from threading import Timer
@@ -19,6 +20,8 @@ Y = deque(maxlen = 20)
 
 BMS = BatteryManagement()
 GPS = BerryGPS()
+# ACC = Accelerometer()
+
 
 app = dash.Dash(__name__)
 app.layout = html.Div(
@@ -51,7 +54,9 @@ def update_graph(n):
         #X[-1]+Y[-1]*random.uniform(-0.1,0.1)
         Y.append(BSoC)
 
-    GPS_read = GPS.getData()
+    # GPS_read = GPS.getData()
+    # lat, lon = (GPS_read['lat'],GPS_read['lon'])
+    lat, lon = 0,0
 
     data = go.Scatter(
         x = list(X),
@@ -61,7 +66,7 @@ def update_graph(n):
     )
 
     return {'data':[data],'layout': go.Layout(xaxis = dict(range=[min(X),max(X)]),
-                                            yaxis = dict(range=[0,100]))}, [html.H1(children = f'BSoC reading: {round(BSoC,2)} %')]
+        yaxis = dict(range=[0,100]))}, [html.H1(children = f'BSoC reading: {round(BSoC,2)} % \n Lat, Lon: {round(lat,2), round(lon,2)}')]
 
 # @app.callback (Output('live-value','children'), 
 #                 [Input('graph-update','n_intervals')]) 
@@ -70,7 +75,7 @@ def update_graph(n):
 #     BSoC = BMS.get_BSoC()
 #     return [html.H1(children = BSoC)]
 
-port = 8050
+port = 9000
 def open_browser():
     webbrowser.open_new("http://localhost:{}".format(port))
    # webbrowser.open_new("http://127.0.0.1:8050/")
