@@ -10,7 +10,7 @@ import plotly.graph_objs as go
 from collections import deque
 from BatteryManagement import BatteryManagement
 from gps import BerryGPS
-#from Accelerometer import Accelerometer
+from Accelerometer import Accelerometer
 import os
 import webbrowser
 from threading import Timer

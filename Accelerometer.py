@@ -1,7 +1,8 @@
 import datetime
+import sys
+sys.path.append("./BerryIMU/python-BerryIMU-gyro-accel-compass")
 import IMU
 import math
-import sys
 
 class Accelerometer:
 
