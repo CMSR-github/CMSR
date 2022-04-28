@@ -1,14 +1,31 @@
 import serial
+import numpy as np
+import random
 
 class BerryGPS:
     def __init__(self):
         self.port = "/dev/serial0"
         print("Connecting to GPS")
+        self.hist_data = [] 
+        self.lons = []
+        self.lats = []
+        seed = random.randint(100,1000)
+        self.filename = f"gps_{seed}.txt"
 
     def parseGPS(self,data):
         print("here at least")
         #print "raw:", data #prints raw data
         
+        res = {
+                    "lat": 0,
+                    "dirLat":0,
+                    "lon":0,
+                    "dirLon": 0,
+                    "speed": 0,
+                    "time":0,
+                    "trCourse":0,
+                    "date":0
+                }
         if data[0:6] == "$GNRMC":
             sdata = data.split(",")
             if sdata[2] == 'V':
@@ -33,18 +50,11 @@ class BerryGPS:
                     "trCourse":trCourse,
                     "date":date
                 }
-        else:
-            return {
-                    "lat": 0,
-                    "dirLat":0,
-                    "lon":0,
-                    "dirLon": 0,
-                    "speed": 0,
-                    "time":0,
-                    "trCourse":0,
-                    "date":0
-                }
-            
+        self.hist_data.append(res)
+        np.save(filename,np.array(hist_data))
+        self.lons.append(res["lon"])
+        self.lats.append(res["lat"])
+        return res 
 
             #print(" latitude : %s(%s), longitude : %s(%s), speed : %s" %  (lat,dirLat,lon,dirLon,speed))
            # print "time : %s, latitude : %s(%s), longitude : %s(%s), speed : %s, True Course : %s, Date : %s" %  (time,lat,dirLat,lon,dirLon,speed,trCourse,date)

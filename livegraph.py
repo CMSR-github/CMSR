@@ -4,6 +4,7 @@ from dash.dependencies import Output
 from dash.dependencies import Input
 import dash_html_components as html
 import plotly
+import plotly.express as px
 import random
 import plotly.graph_objs as go
 from collections import deque
@@ -19,8 +20,8 @@ X.append(0)
 Y = deque(maxlen = 20)
 
 BMS = BatteryManagement()
-GPS = BerryGPS()
-# ACC = Accelerometer()
+# GPS = BerryGPS()
+ACC = Accelerometer()
 
 
 app = dash.Dash(__name__)
@@ -56,7 +57,13 @@ def update_graph(n):
 
     # GPS_read = GPS.getData()
     # lat, lon = (GPS_read['lat'],GPS_read['lon'])
-    lat, lon = 0,0
+    # lat, lon = 0,0
+    #lats, lons = GPS.lats, GPS.lons
+    # lats, lons = [0,1,2,3],[2,3,4,5]
+
+    # fig = px.line_geo(lat=GPS.lats, lon=GPS.lons)
+    # fig.update_geos(fitbounds="locations")
+    accX, accY = ACC.get_measurement() 
 
     data = go.Scatter(
         x = list(X),
@@ -66,7 +73,7 @@ def update_graph(n):
     )
 
     return {'data':[data],'layout': go.Layout(xaxis = dict(range=[min(X),max(X)]),
-        yaxis = dict(range=[0,100]))}, [html.H1(children = f'BSoC reading: {round(BSoC,2)} % \n Lat, Lon: {round(lat,2), round(lon,2)}')]
+        yaxis = dict(range=[0,100]))}, [html.H1(children = f'BSoC reading: {round(BSoC,2)} % \n AccX, AccY: {round(accX,2), round(accY,2)}')]
 
 # @app.callback (Output('live-value','children'), 
 #                 [Input('graph-update','n_intervals')]) 
