@@ -75,7 +75,7 @@ def update_graph(n):
 #     BSoC = BMS.get_BSoC()
 #     return [html.H1(children = BSoC)]
 
-port = 9000
+port = 8050 
 def open_browser():
     webbrowser.open_new("http://localhost:{}".format(port))
    # webbrowser.open_new("http://127.0.0.1:8050/")
