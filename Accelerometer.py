@@ -3,13 +3,6 @@ import IMU
 import math
 import sys
 
-
-IMU.detectIMU()
-if(IMU.BerryIMUversion == 99):
-    print(" No BerryIMU found... exiting ")
-    sys.exit()
-IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
-
 class Accelerometer:
 
     def __init__(self):
@@ -17,7 +10,12 @@ class Accelerometer:
         self.cur_time = datetime.datetime.now()
         self.accXnorm = 0
         self.accYnorm = 0
-        
+
+        IMU.detectIMU()
+        if(IMU.BerryIMUversion == 99):
+            print(" No BerryIMU found... exiting ")
+            sys.exit()
+        IMU.initIMU()       #Initialise the accelerometer, gyroscope and compass
 
     def get_measurement(self):
         ACCx = IMU.readACCx()
@@ -34,6 +32,7 @@ class Accelerometer:
         #time between GyroReads here?
         self.accXnorm = ACCx/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
         self.accYnorm = ACCy/math.sqrt(ACCx * ACCx + ACCy * ACCy + ACCz * ACCz)
+        return self.accXnorm, self.accYnorm
 
     def display_data(self):
         print(f"accX: {self.accXnorm} accY: {self.accYnorm}")
