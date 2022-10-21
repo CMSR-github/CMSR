@@ -15,14 +15,15 @@ import os
 import webbrowser
 from threading import Timer
 
+
 X = deque(maxlen = 50)
 X.append(0)
 Y = deque(maxlen = 20)
 
+
 BMS = BatteryManagement()
 # GPS = BerryGPS()
 ACC = Accelerometer()
-
 
 app = dash.Dash(__name__)
 app.layout = html.Div(
@@ -38,13 +39,15 @@ app.layout = html.Div(
             id = 'graph-update',
             interval = 1000
         )
-
     ]
 )
 
+
+#Callback from website updates?? Not sure what this does but it's critical
 @app.callback ([Output('live-graph','figure'), Output('live-value','children')], 
                 [Input('graph-update','n_intervals')]) 
 
+#This function isn't necessary
 def update_graph(n):
     global X
     global Y
